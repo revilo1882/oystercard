@@ -12,12 +12,12 @@ class Oystercard
   end
 
   def top_up(amount)
-    raise "maximim balance of £#{@limit} exceeded" if @balance + amount > @limit
+    raise "maximim balance of £#{@limit} exceeded" if balance + amount > @limit
     @balance += amount
   end
 
   def touch_in(entry_station)
-    raise 'insufficient funds available' if @balance < @minimum
+    raise 'insufficient funds available' if balance < @minimum
     @history = entry_station
   end
 
@@ -27,7 +27,7 @@ class Oystercard
   end
 
   def in_journey?
-    !!@history
+    !!history
   end
 
   private
