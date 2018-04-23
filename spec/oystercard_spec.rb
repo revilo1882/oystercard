@@ -10,14 +10,12 @@ describe Oystercard do
   end
 
   it 'it has a maximum balance' do
-    limit = Oystercard::MAXIMUM_BALANCE
-    subject.top_up(limit)
-    expect { subject.top_up(1) }.to raise_error "maximim balance of £#{limit} exceeded"
+    subject.top_up(Oystercard::MAXIMUM_BALANCE)
+    expect { subject.top_up(1) }.to raise_error "maximim balance of £#{Oystercard::MAXIMUM_BALANCE} exceeded"
   end
 
   it 'returns true when touch_in called' do
-    minimum = Oystercard::MINIMUM_BALANCE
-    subject.top_up(minimum)
+    subject.top_up(Oystercard::MINIMUM_BALANCE)
     subject.touch_in
     expect(subject).to be_in_journey
   end
@@ -36,9 +34,8 @@ describe Oystercard do
   end
 
   it 'deducts minimum balance when touch_out is called' do
-    minimum = Oystercard::MINIMUM_BALANCE
     subject.top_up(5)
     subject.touch_in
-    expect { subject.touch_out }.to change { subject.balance }.by(-minimum)
+    expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::MINIMUM_BALANCE)
   end
 end
