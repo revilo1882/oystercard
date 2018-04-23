@@ -15,10 +15,6 @@ describe Oystercard do
     expect { subject.top_up(1) }.to raise_error "maximim balance of £#{limit} exceeded"
   end
 
-  it 'deducts balance by 5' do
-    expect { subject.deduct(5) }.to change { subject.balance }.by(-5)
-  end
-
   it 'returns true when touch_in called' do
     minimum = Oystercard::MINIMUM_BALANCE
     subject.top_up(minimum)
@@ -37,5 +33,12 @@ describe Oystercard do
 
   it 'does not let user touch in with 0 balance' do
     expect { subject.touch_in }.to raise_error 'insufficient funds available'
+  end
+
+  it 'deducts minimum balance when touch_out is called' do
+    minimum = Oystercard::MINIMUM_BALANCE
+    subject.top_up(5)
+    subject.touch_in
+    expect { subject.touch_out }.to change { subject.balance }.by(-minimum)
   end
 end
