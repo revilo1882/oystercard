@@ -20,6 +20,8 @@ describe Oystercard do
   end
 
   it 'returns true when touch_in called' do
+    minimum = Oystercard::MINIMUM_BALANCE
+    subject.top_up(minimum)
     subject.touch_in
     expect(subject).to be_in_journey
   end
@@ -31,5 +33,9 @@ describe Oystercard do
 
   it 'is initially not in journey' do
     expect(subject).not_to be_in_journey
+  end
+
+  it 'does not let user touch in with 0 balance' do
+    expect { subject.touch_in }.to raise_error 'insufficient funds available'
   end
 end
