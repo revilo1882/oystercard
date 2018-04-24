@@ -48,14 +48,14 @@ describe Oystercard do
     it 'remembers entry_station when touch_in is called' do
       subject.top_up(5)
       subject.touch_in(entry_station)
-      expect(subject.history).to include(entry_station)
+      expect(subject.journey[:entry_station]).to eq(entry_station)
     end
 
-    it 'remembers the entry_station when touch_out is called' do
+    it 'remembers the journey when touch_out is called' do
       subject.top_up(5)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.history).to include(entry_station, exit_station)
+      expect(subject.history).to include { subject.journey }
     end
 
 
