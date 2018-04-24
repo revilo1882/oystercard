@@ -9,6 +9,7 @@ class Oystercard
     @balance = 0
     @limit = MAXIMUM_BALANCE
     @minimum = MINIMUM_BALANCE
+    @history = []
   end
 
   def top_up(amount)
@@ -18,16 +19,16 @@ class Oystercard
 
   def touch_in(entry_station)
     raise 'insufficient funds available' if balance < @minimum
-    @history = entry_station
+    @history << entry_station
   end
 
-  def touch_out
+  def touch_out(exit_station)
     deduct(@minimum)
-    @history = nil
+    @history << exit_station
   end
 
   def in_journey?
-    !!history
+    history.length.odd?
   end
 
   private
