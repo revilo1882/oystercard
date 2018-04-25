@@ -1,4 +1,4 @@
-require 'journey'
+rspecrequire 'journey'
 
 describe Journey do
 

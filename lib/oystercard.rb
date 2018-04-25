@@ -28,10 +28,7 @@ class Oystercard
     @journey.finish(station)
     deduct(@journey.fare)
     adds_journey
-  end
-
-  def in_journey?
-    !!journey
+    reset_journey
   end
 
   private
@@ -42,11 +39,17 @@ class Oystercard
 
   def adds_journey
     @history << { entry_station: @journey.entry_station, exit_station: @journey.exit_station }
-    @journey = nil
   end
 
   def penalty_check
-    deduct(@journey.fare) if !!@journey.entry_station || !!@journey.exit_station
+    if !!@journey.entry_station || !!@journey.exit_station
+      deduct(@journey.fare)
+      adds_journey
+    end
+  end
+
+  def reset_journey
+    @journey = Journey.new
   end
 
 

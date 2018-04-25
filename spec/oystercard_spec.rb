@@ -56,27 +56,9 @@ describe Oystercard do
       expect(subject.history.length).to eq 1
     end
 
-    it 'returns false when touch_out called' do
-      subject.touch_out(exit_station)
-      expect(subject).not_to be_in_journey
-    end
-
     it 'adds journey hash to history' do
       subject.touch_out(exit_station)
       expect(subject.history).to include(journey)
-    end
-  end
-
-  describe '#in_jouney' do
-
-    xit 'is initially not in journey' do
-      expect(subject).not_to be_in_journey
-    end
-
-    it 'returns true when touch_in called' do
-      subject.top_up(Oystercard::MINIMUM_BALANCE)
-      subject.touch_in(entry_station)
-      expect(subject).to be_in_journey
     end
   end
 
