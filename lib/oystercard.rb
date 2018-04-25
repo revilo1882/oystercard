@@ -7,26 +7,23 @@ class Oystercard
 
   def initialize
     @balance = 0
-    @limit = MAXIMUM_BALANCE
-    @minimum = MINIMUM_BALANCE
     @history = []
 
   end
 
   def top_up(amount)
-    raise "maximim balance of £#{@limit} exceeded" if balance + amount > @limit
+    raise "maximim balance of £#{MAXIMUM_BALANCE} exceeded" if balance + amount > MAXIMUM_BALANCE
     @balance += amount
   end
 
-  def touch_in(entry_station)
-    raise 'insufficient funds available' if balance < @minimum
-    @journey = Hash.new(2)
-    @journey[:entry_station] = entry_station
+  def touch_in(station)
+    raise 'insufficient funds available' if balance < MINIMUM_BALANCE
+    @journey = {}
   end
 
-  def touch_out(exit_station)
-    deduct(@minimum)
-    @journey[:exit_station] = exit_station
+  def touch_out(station)
+    deduct(MINIMUM_BALANCE)
+    @journey[:exit_station] = station
     adds_journey
   end
 

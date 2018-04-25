@@ -2,8 +2,9 @@ require 'oystercard'
 
 describe Oystercard do
 
-  let(:entry_station) {double :entry_station}
-  let(:exit_station) {double :exit_station}
+  let(:entry_station) {double :station}
+  let(:exit_station) {double :station}
+  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
 
   describe '#initialize' do
 
@@ -17,7 +18,7 @@ describe Oystercard do
     end
 
     it 'has an empty list of journeys by default' do
-      expect(subject.history).to eq []
+      expect(subject.history).to be_empty
     end
 
   end
@@ -36,11 +37,6 @@ describe Oystercard do
       expect { subject.touch_in(entry_station) }.to raise_error 'insufficient funds available'
     end
 
-    it 'remembers entry_station when touch_in is called' do
-      subject.top_up(5)
-      subject.touch_in(entry_station)
-      expect(subject.journey[:entry_station]).to eq(entry_station)
-    end
 
   end
 
@@ -53,11 +49,6 @@ describe Oystercard do
 
     it 'deducts minimum balance when touch_out is called' do
       expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-Oystercard::MINIMUM_BALANCE)
-    end
-
-    it 'remembers the journey when touch_out is called' do
-      subject.touch_out(exit_station)
-      expect(subject.history).to include(:entry_station => entry_station, :exit_station => exit_station)
     end
 
     it 'touch_in and touch_out creates one journey' do
