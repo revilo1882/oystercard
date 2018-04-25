@@ -2,9 +2,9 @@ require 'oystercard'
 
 describe Oystercard do
 
-  let(:entry_station) {double :station}
-  let(:exit_station) {double :station}
-  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
+  let(:entry_station) {double :station , name: :bank }
+  let(:exit_station) {double :station , name: :bond_street }
+  let(:journey) { {entry_station: entry_station.name, exit_station: exit_station.name } }
 
   describe '#initialize' do
 
@@ -61,6 +61,10 @@ describe Oystercard do
       expect(subject).not_to be_in_journey
     end
 
+    it 'adds journey hash to history' do
+      subject.touch_out(exit_station)
+      expect(subject.history).to include(journey)
+    end
   end
 
   describe '#in_jouney' do

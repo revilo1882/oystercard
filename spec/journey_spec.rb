@@ -8,5 +8,10 @@ describe Journey do
     subject.start(station)
     expect(subject.entry_station).to eq(station.name)
   end
-  
+
+  it 'responds to finish' do
+    subject.finish(station)
+    expect(subject.exit_station).to eq(station.name)
+  end
+
 end
