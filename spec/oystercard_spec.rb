@@ -4,7 +4,7 @@ describe Oystercard do
 
   let(:entry_station) {double :station , name: :bank }
   let(:exit_station) {double :station , name: :bond_street }
-  let(:journey) { {entry_station: entry_station.name, exit_station: exit_station.name } }
+  let(:journey) { {entry_station: entry_station.name, exit_station: exit_station.name,} }
 
   describe '#initialize' do
 
@@ -77,6 +77,19 @@ describe Oystercard do
       subject.top_up(Oystercard::MINIMUM_BALANCE)
       subject.touch_in(entry_station)
       expect(subject).to be_in_journey
+    end
+  end
+
+  describe 'check fare is correct tests' do
+    let(:journey) {double(:journey, fare: 6)}
+    it 'charges 6 when not touching out' do
+      subject.top_up(10)
+      subject.touch_in(entry_station)
+      expect { subject.touch_in(entry_station) }.to change { subject.balance }.by(-journey.fare)
+    end
+
+    it 'charges 6 when not touching in' do
+      expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-journey.fare)
     end
 
   end
